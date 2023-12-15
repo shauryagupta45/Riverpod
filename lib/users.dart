@@ -8,5 +8,6 @@ class User {
 
 //This will help to change the User info
 class UserNotifier extends StateNotifier<User> {
-  UserNotifier(super.state);
+  UserNotifier(
+      super.state); // We need to call constructor otherwise it'll give an error
 }
