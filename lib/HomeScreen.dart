@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_project/main.dart';
+import 'package:riverpod_project/users.dart';
 
 //Note the difference between WidgetRef and ref is, WidgetRef allows the communication between Widget and provider, while ref allows the communication between provider and provider.
 class HomeScreen
@@ -9,8 +10,10 @@ class HomeScreen
   const HomeScreen({Key? key}) : super(key: key);
 
   void onSubmit(WidgetRef ref, String value) {
-    ref.read(nameProvider1.notifier).update((state) => value);
+    ref.read(userProvider.notifier).updateName(value);
   }
+
+  //Now, see we couldn't change the name just like that in previous methods, but now, here, since we are using instance of stateNotifier class of user that is, UserNotifier, we get the instance of that class and we can update the name easily
 
   //Earlier this was string, which is immutable, but then, after adding notifier, it became a mutable object whose state can be changed like shown.
 
@@ -21,17 +24,19 @@ class HomeScreen
           ref) //This ref is similar to the ref we used in provider, it is used by widget to communicate with the providers.
   {
     //Different way of calling/reading provider :
-    final name = ref.watch(nameProvider);
+    // final name = ref.watch(nameProvider);
     // name = "hero";// We can't change the name outside provider just like that.
-    final nameRead = ref.read(nameProvider);
+    // final nameRead = ref.read(nameProvider);
     //read is used when we have to read the value only once, while in watch, it is continously looking for the changes that occur. So it's preferred to use 'watch' function.
 
-    final name1 = ref.watch(nameProvider1) ??
-        ''; //Means if the provider return null, it will return empty string
+    // final name1 = ref.watch(nameProvider1) ??
+    // ''; //Means if the provider return null, it will return empty string
+
+    final user = ref.watch(userProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Riverpod"),
+        title: Text(user.name),
         centerTitle: true,
       ),
       body: Column(
@@ -40,7 +45,7 @@ class HomeScreen
             onSubmitted: (value) => onSubmit(ref, value),
           ),
           Center(
-            child: Text(name1),
+            child: Text(user.name.toString()),
           ),
         ],
       ),

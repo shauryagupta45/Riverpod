@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_project/HomeScreen.dart';
+import 'package:riverpod_project/users.dart';
 
 //Providers : There are many types of providers :
 
@@ -24,6 +25,11 @@ final nameProvider1 = StateProvider<String?>((ref) => null);
 
 // 3) StateNotifier and StateNotifierProvider : StateProvider also allows to change but, it will highly depend on the widget, meanwhile our most data is wrapped in a class, for which it is better to user this.
 
+final userProvider =
+    StateNotifierProvider<UserNotifier,User>((ref) => UserNotifier(const User(name: '', age: 0)));
+//In angular brackets we have to pass the class we're returning and then the state
+
+ 
 void main() {
   runApp(const ProviderScope(
       child:

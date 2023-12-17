@@ -39,7 +39,8 @@ class User {
 
   String toJson() => json.encode(toMap());
 
-  factory User.fromJson(String source) => User.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory User.fromJson(String source) =>
+      User.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() => 'User(name: $name, age: $age)';
@@ -47,10 +48,8 @@ class User {
   @override
   bool operator ==(covariant User other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.name == name &&
-      other.age == age;
+
+    return other.name == name && other.age == age;
   }
 
   @override
@@ -64,6 +63,13 @@ class UserNotifier extends StateNotifier<User> {
 
   void updateName(String n) {
     // state.name = n ; We cant write this, coz this class is immutable
-    state = User(name: n, age: state.age);
+    // state = User(name: n, age: state.age);
+    //Now after , generating the dart class, we'll use copyWith
+    state = state.copyWith(name: n);
+    //so it basically, copy all the properties of state and just changes the name to n
+  }
+
+  void updateAge(int n) {
+    state = state.copyWith(age: n); 
   }
 }
