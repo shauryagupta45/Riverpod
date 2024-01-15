@@ -23,8 +23,8 @@ class HomeScreen
   }
 
   void onSubmitAge(WidgetRef ref, String value) {
-    // ref.read(userProvider.notifier).updateAge(int.parse(value)); 
-    ref.read(userChangeNotifierProvider).updateAge(int.parse(value)); 
+    // ref.read(userProvider.notifier).updateAge(int.parse(value));
+    ref.read(userChangeNotifierProvider).updateAge(int.parse(value));
   }
 
   //Now, see we couldn't change the name just like that in previous methods, but now, here, since we are using instance of stateNotifier class of user that is, UserNotifier, we get the instance of that class and we can update the name easily
@@ -44,7 +44,11 @@ class HomeScreen
     // final name1 = ref.watch(nameProvider1) ??'';
     //Means if the provider return null, it will return empty string
 
-    final user = ref.watch(userProvider);
+    // final user = ref.watch(userProvider);
+    final user = ref.watch(userChangeNotifierProvider).user;
+
+    // Since ChangeNotifierProvider is mutable, we can also do  :
+    ref.watch(userChangeNotifierProvider).user = const User(name: 'Shaurya', age: 22); 
 
     // Now we have 3 ways in which we can read the value : one is read , second is watch and the third is  using select method.
 

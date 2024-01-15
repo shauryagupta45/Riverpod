@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:riverpod_project/HomeScreen.dart';
+import 'package:riverpod_project/userHttp.dart';
 import 'package:riverpod_project/users.dart';
+import 'package:http/http.dart' as http;
 
 //Providers : There are many types of providers :
 
@@ -36,9 +39,18 @@ final userProvider =
     StateNotifierProvider<UserNotifier, User>((ref) => UserNotifier());
 
 //4 ChangeNotifier
-
+//Only this provider is mutable, all the others are immutable
 final userChangeNotifierProvider =
     ChangeNotifierProvider((ref) => UserNotifierChange());
+
+//5 FutureProvider
+//mainly used for http calls
+
+final fetchUserProvider = FutureProvider((ref) {
+  // return UserRepo().fetchUserData();
+  final userRepo = ref.watch(userRepoProvider);
+  return userRepo.fetchUserData();  
+});
 
 void main() {
   runApp(const ProviderScope(
@@ -58,7 +70,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HomeScreen(),
+      home: const HomeScreen(),
     );
   }
 }

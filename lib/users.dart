@@ -80,6 +80,7 @@ class UserNotifier extends StateNotifier<User> {
 
 
 // The ChangeNotifier doesn't develop any state
+
 class UserNotifierChange extends ChangeNotifier {
   User user = const User(name: '', age: 0);
 
@@ -90,5 +91,6 @@ class UserNotifierChange extends ChangeNotifier {
 
   void updateAge(int n) {
     user = user.copyWith(age: n);
+    notifyListeners() ;
   }
 }
