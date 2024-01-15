@@ -58,8 +58,12 @@ class User {
 
 //This will help to change the User info
 class UserNotifier extends StateNotifier<User> {
-  UserNotifier(
-      super.state); // We need to call constructor otherwise it'll give an error. The 'state' is of same data type as in the function definition's angular bracket i.e. here : User
+  // UserNotifier(super.state);
+  // We need to call constructor otherwise it'll give an error. The 'state' is of same data type as in the function definition's angular bracket i.e. here : User
+
+  UserNotifier() : super(const User(name: '', age: 0));
+
+  //In this way, humne constructor idhr define krdia, instead of provider ki definiton mei
 
   void updateName(String n) {
     // state.name = n ; We cant write this, coz this class is immutable
@@ -70,6 +74,21 @@ class UserNotifier extends StateNotifier<User> {
   }
 
   void updateAge(int n) {
-    state = state.copyWith(age: n); 
+    state = state.copyWith(age: n);
+  }
+}
+
+
+// The ChangeNotifier doesn't develop any state
+class UserNotifierChange extends ChangeNotifier {
+  User user = const User(name: '', age: 0);
+
+   void updateName(String n) {
+    user = user.copyWith(name: n); 
+    notifyListeners() ; 
+  }
+
+  void updateAge(int n) {
+    user = user.copyWith(age: n);
   }
 }

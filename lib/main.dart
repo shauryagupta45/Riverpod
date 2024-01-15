@@ -25,11 +25,21 @@ final nameProvider1 = StateProvider<String?>((ref) => null);
 
 // 3) StateNotifier and StateNotifierProvider : StateProvider also allows to change but, it will highly depend on the widget, meanwhile our most data is wrapped in a class, for which it is better to user this.
 
-final userProvider =
-    StateNotifierProvider<UserNotifier,User>((ref) => UserNotifier(const User(name: '', age: 0)));
-//In angular brackets we have to pass the class we're returning and then the state
+// final userProvider =
+//     StateNotifierProvider<UserNotifier,User>((ref) => UserNotifier(const User(name: '', age: 0)));
 
- 
+//In angular brackets we have to pass the class we're returning and then the state
+//Now we don't want to pass the constructor of 'User' here , so we'll define the constructor in the state notifier class only. In the end state reach krni hoti h user ki, toh we'll call the state explicitly constructor notifier mei mention krke, and idhr se hataa ke, so our new definition would be :
+
+//3 StateNotifierProvider
+final userProvider =
+    StateNotifierProvider<UserNotifier, User>((ref) => UserNotifier());
+
+//4 ChangeNotifier
+
+final userChangeNotifierProvider =
+    ChangeNotifierProvider((ref) => UserNotifierChange());
+
 void main() {
   runApp(const ProviderScope(
       child:
