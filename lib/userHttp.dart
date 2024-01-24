@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part  'userHttp.g.dart';
 
 @immutable
 class UserHttp {
@@ -57,7 +59,11 @@ class UserHttp {
   int get hashCode => name.hashCode ^ email.hashCode;
 }
 
-final userRepoProvider = Provider((ref) => UserRepo(ref));
+@riverpod
+UserRepo userRepoProvider( UserRepoProviderRef ref) {
+  return UserRepo(ref);
+}
+// final userRepoProvider = Provider((ref) => UserRepo(ref));
 
 class UserRepo {
   final Ref ref;

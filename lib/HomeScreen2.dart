@@ -19,7 +19,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
   String userNo = '1';
   @override
   Widget build(BuildContext context) {
-    return ref.watch(fetchUserProvider(userNo)).when(data: (data) {
+    return ref.watch(fetchUserProvider(input : userNo, num : 1, valuee :false)).when(data: (data) {
       return Scaffold(
         appBar: AppBar(),
         body: Column(

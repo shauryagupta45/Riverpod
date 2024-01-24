@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,7 +8,8 @@ import 'package:riverpod_project/logger_riverpod.dart';
 import 'package:riverpod_project/userHttp.dart';
 import 'package:riverpod_project/users.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'main.g.dart';
 //Providers : There are many types of providers :
 
 //Note that, declaring providers using Provider package and Riverpod package is different, so dont get confused .
@@ -49,16 +50,27 @@ final userChangeNotifierProvider =
 //5 FutureProvider
 //mainly used for http calls
 
-final fetchUserProvider =
-    FutureProvider.family.autoDispose((ref, String input) {
-  //The autoDispose helps in managing memory leaks and disposing providers,data and states when not in used or that are not reused later
-  //We can do the same thing for Stream, Future, ChangeNotifier provider
-  //We can do this in StateNotifier too, but autoDispose is not supported in it
-  // return UserRepo().fetchUserData();
+@riverpod
+Future<UserHttp> fetchUser(
+  FetchUserRef ref, {
+  required String input,
+  required int num,
+  required bool valuee,
+}) {
+  final UserRepo = ref.watch(userRepoProviderProvider);
+  return UserRepo.fetchUserData(input);
+}
 
-  final userRepo = ref.watch(userRepoProvider);
-  return userRepo.fetchUserData(input);
-});
+// final fetchUserProvider =
+//     FutureProvider.family.autoDispose((ref, String input) {
+//   //The autoDispose helps in managing memory leaks and disposing providers,data and states when not in used or that are not reused later
+//   //We can do the same thing for Stream, Future, ChangeNotifier provider
+//   //We can do this in StateNotifier too, but autoDispose is not supported in it
+//   // return UserRepo().fetchUserData();
+
+//   final userRepo = ref.watch(userRepoProvider);
+//   return userRepo.fetchUserData(input);
+// });
 //6
 final streamProvider = StreamProvider((ref) async* {
   // FirebaseFirestore.collection('users').doc(userId).snapshots();
