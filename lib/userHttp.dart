@@ -57,11 +57,13 @@ class UserHttp {
   int get hashCode => name.hashCode ^ email.hashCode;
 }
 
-final userRepoProvider = Provider((ref) => UserRepo());
+final userRepoProvider = Provider((ref) => UserRepo(ref));
 
 class UserRepo {
-  Future<UserHttp> fetchUserData() {
-    const url = 'https://jsonplaceholder.typicode.com/users';
+  final Ref ref;
+  UserRepo(this.ref);
+  Future<UserHttp> fetchUserData(String input) {
+    var url = 'https://jsonplaceholder.typicode.com/users/$input';
     return http
         .get(Uri.parse(url))
         .then((value) => UserHttp.fromJson(value.body));

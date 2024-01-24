@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types
+// ignore_for_file: camel_case_types, file_names, unused_local_variable
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +9,7 @@ import 'package:riverpod_project/users.dart';
 class HomeScreen
     extends ConsumerWidget //that's how we prepare this whole screen to receive the information from provider
 {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   void onSubmit1(WidgetRef ref, String value) {
     ref.read(nameProvider1.notifier).update((state) => value);
@@ -87,7 +87,7 @@ class HomeScreen
 //The difference between, Consumer and ConsumerWidget is, the whole widget tree rebuilds, when Consumerwidget is used, but using Consumer, will make code too much filled with nesting and all.
 
 class class123 extends ConsumerStatefulWidget {
-  const class123({Key? key}) : super(key: key);
+  const class123({super.key});
 
   @override
   ConsumerState<class123> createState() => _class123State();

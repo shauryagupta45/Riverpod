@@ -1,7 +1,10 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:riverpod_project/HomeScreen.dart';
+import 'package:riverpod_project/logger_riverpod.dart';
 import 'package:riverpod_project/userHttp.dart';
 import 'package:riverpod_project/users.dart';
 import 'package:http/http.dart' as http;
@@ -46,16 +49,31 @@ final userChangeNotifierProvider =
 //5 FutureProvider
 //mainly used for http calls
 
-final fetchUserProvider = FutureProvider((ref) {
+final fetchUserProvider =
+    FutureProvider.family.autoDispose((ref, String input) {
+  //The autoDispose helps in managing memory leaks and disposing providers,data and states when not in used or that are not reused later
+  //We can do the same thing for Stream, Future, ChangeNotifier provider
+  //We can do this in StateNotifier too, but autoDispose is not supported in it
   // return UserRepo().fetchUserData();
+
   final userRepo = ref.watch(userRepoProvider);
-  return userRepo.fetchUserData();  
+  return userRepo.fetchUserData(input);
+});
+//6
+final streamProvider = StreamProvider((ref) async* {
+  // FirebaseFirestore.collection('users').doc(userId).snapshots();
+  yield [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 });
 
 void main() {
-  runApp(const ProviderScope(
-      child:
-          MyApp())); //This provider keeps tracks of all the providers and ensures that there is no leakage of state inspite of provider being declared globally
+  runApp(
+    ProviderScope(
+      observers: [
+        LoggerRiverpod(),
+      ],
+      child: const MyApp(),
+    ),
+  ); //This provider keeps tracks of all the providers and ensures that there is no leakage of state inspite of provider being declared globally
 }
 
 class MyApp extends StatelessWidget {
